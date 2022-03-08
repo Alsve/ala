@@ -1,6 +1,6 @@
 package alacli
 
-import "qoin-be-createorder-manager/pkg/ala/logger"
+import "github.com/Alsve/ala/logger"
 
 // NewClientFactory creates a new instance of ClientFactory.
 func NewClientFactory(l logger.Logger, cr ChannelRenewer, ccd CorrelatorCreateDeleter, rcr ReplyChannelRetriever) *ClientFactory {

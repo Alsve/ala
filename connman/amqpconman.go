@@ -1,8 +1,9 @@
 package connman
 
 import (
-	"qoin-be-createorder-manager/pkg/ala/logger"
 	"sync"
+
+	"github.com/Alsve/ala/logger"
 
 	"github.com/streadway/amqp"
 )
