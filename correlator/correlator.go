@@ -1,8 +1,6 @@
 package correlator
 
 import (
-	"time"
-
 	uuid "github.com/satori/go.uuid"
 	"github.com/streadway/amqp"
 	"github.com/tidwall/spinlock"
@@ -19,9 +17,8 @@ func NewCorrelator() *Correlator {
 //
 // Warning Note: This doesn't have automatic cyclic garbage collector, use it cleanly to avoid memory leak by retrieving .
 type Correlator struct {
-	replyTimeout time.Duration
-	chs          map[string]chan amqp.Delivery
-	l            spinlock.Locker
+	chs map[string]chan amqp.Delivery
+	l   spinlock.Locker
 }
 
 // NewCorrelationID creates a new channel and random correlation id string and
@@ -47,18 +44,12 @@ func (c *Correlator) isChanOpen(ch chan amqp.Delivery) bool {
 	return true
 }
 
-// SetReplyTimeout make chanenl closed when already used.
-func (c *Correlator) SetReplyTimeout(t time.Duration) {
-	c.l.Lock()
-	c.replyTimeout = t
-	c.l.Unlock()
-}
-
 // Reply publish a message to a channel using correlationID.
 func (c *Correlator) Reply(correlationID string, data amqp.Delivery) error {
 	c.l.Lock()
 	ch, ok := c.chs[correlationID]
 	if !ok {
+		c.l.Unlock()
 		return ErrCorrReplyChanNotExist
 	}
 	c.l.Unlock()
@@ -67,13 +58,7 @@ func (c *Correlator) Reply(correlationID string, data amqp.Delivery) error {
 		return ErrCorrReplyChanNotExist
 	}
 
-	t := time.NewTimer(c.replyTimeout)
-	defer t.Stop()
-
-	select {
-	case ch <- data:
-	case <-t.C:
-	}
+	ch <- data
 
 	return nil
 }
