@@ -1,6 +1,6 @@
 package alacli
 
-import "github.com/Alsve/ala/logger"
+import "github.com/alsve/ala/logger"
 
 // NewClientFactory creates a new instance of ClientFactory.
 func NewClientFactory(l logger.Logger, cr ChannelRenewer, ccd CorrelatorCreateDeleter, rcr ReplyChannelRetriever) *ClientFactory {

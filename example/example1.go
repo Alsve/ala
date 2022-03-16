@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/Alsve/ala/alaserv"
-	"github.com/Alsve/ala/connman"
-	"github.com/Alsve/ala/logger"
+	"github.com/alsve/ala/alaserv"
+	"github.com/alsve/ala/connman"
+	"github.com/alsve/ala/logger"
 	"github.com/joho/godotenv"
 	"github.com/streadway/amqp"
 )

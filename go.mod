@@ -1,4 +1,4 @@
-module github.com/Alsve/ala
+module github.com/alsve/ala
 
 go 1.16
 
