@@ -26,7 +26,7 @@ func (s StdOutLogger) timeNow() string {
 
 // Debug logs message at debug level
 func (s StdOutLogger) Debug(msg string, args ...interface{}) {
-	logMark := fmt.Sprintf("%s [DEBUG] ", s.timeNow())
+	logMark := fmt.Sprintf("%s [DEBUG]", s.timeNow())
 	fmt.Printf(logMark+msg+"\n", args...)
 }
 
