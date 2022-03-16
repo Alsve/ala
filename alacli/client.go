@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/alsve/ala/logger"
+	"github.com/Alsve/ala/logger"
 
 	"github.com/streadway/amqp"
 )

@@ -1,5 +1,3 @@
-github.com/alsve/ala v0.0.0-20220307201128-d6d1e74ff421 h1:7rmyW3B5udzKVx+JqxgA0nvTAd9ifZS91a/KhDAUMZ0=
-github.com/alsve/ala v0.0.0-20220307201128-d6d1e74ff421/go.mod h1:/xDGl3vD+IqFPgU/Gg01YbJY52F24r0xMMUDfcB2oek=
 github.com/joho/godotenv v1.4.0 h1:3l4+N6zfMWnkbPEXKng2o2/MR5mSwTrBih4ZEkkz1lg=
 github.com/joho/godotenv v1.4.0/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/kr/pretty v0.2.1 h1:Fmg33tUaq4/8ym9TJN1x7sLJnHVwhP33CNkpYV/7rwI=
