@@ -230,7 +230,7 @@ func (a *AlaServer) startupServer() {
 	for _, rhs := range a.rhs {
 		consumeCh, err := a.registerRoute(*rhs.q, rhs.ess)
 		if err != nil {
-			log.Panicf("failed to regsiter route: %s", err.Error())
+			log.Panicf("failed to register route: %s", err.Error())
 		}
 		go func(rhs routeHandlerSetting) {
 			a.startHandlerRoutine(consumeCh, rhs.handler)
