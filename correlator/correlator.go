@@ -85,7 +85,7 @@ func (c *Correlator) ReplyChan(correlationID string) <-chan amqp.Delivery {
 // Delete deletes and close reply channel by its correlationID.
 func (c *Correlator) Delete(correlationID string) bool {
 	c.l.Lock()
-	defer c.l.Lock()
+	defer c.l.Unlock()
 
 	ch, ok := c.chs[correlationID]
 	if !ok {
