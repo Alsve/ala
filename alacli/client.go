@@ -91,6 +91,7 @@ func (a *AMQPClient) Do(ctx context.Context, exchange string, key string, msg am
 	}
 
 	cid := a.getCCD().NewCorrelationID()
+	defer a.getCCD().Delete(cid)
 
 	// if failing to publish, try renew channel and try to publish once more.
 	msg.CorrelationId = cid
@@ -100,14 +101,12 @@ func (a *AMQPClient) Do(ctx context.Context, exchange string, key string, msg am
 
 		if errRCh := a.renewChannel(); errRCh != nil {
 			a.log().Error("AMQPClient.Do: %s", errRCh.Error())
-			a.getCCD().Delete(cid)
 			return amqp.Delivery{}, ErrPublishFailed
 		}
 
 		err := a.AMQPCh.Publish(exchange, key, false, false, msg)
 		if err != nil {
 			a.log().Error("AMQPClient.Do: %s", err.Error())
-			a.getCCD().Delete(cid)
 			return amqp.Delivery{}, ErrPublishFailed
 		}
 	}
