@@ -18,7 +18,7 @@ type ClientFactory struct {
 
 // AMQPClient creates a new instance of AMQPClient.
 // May return error when creating channel.
-func (c *ClientFactory) AMQPClient() (*AMQPClient, error) {
+func (c *ClientFactory) AMQPClient(opt ...FactoryOption) (*AMQPClient, error) {
 	ch, err := c.cr.RenewAMQPChannel()
 	if err != nil {
 		c.log.Error("pkg.ClientFactory.AMQPClient: %s", err.Error())
@@ -31,8 +31,16 @@ func (c *ClientFactory) AMQPClient() (*AMQPClient, error) {
 		Log:                     c.log,
 		ChannelRenewer:          c.cr,
 		CorrelatorCreateDeleter: c.ccd,
-		ReplyChannelRetriever:   c.rcr,
+	}
+
+	if len(opt) > 0 && opt[0].IsRPC {
+		client.ReplyChannelRetriever = c.rcr
 	}
 
 	return client, nil
+}
+
+// FactoryOption decides behavior of client created.
+type FactoryOption struct {
+	IsRPC bool
 }
