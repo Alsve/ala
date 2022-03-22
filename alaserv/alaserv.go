@@ -194,6 +194,7 @@ func (a *AlaServer) registerRoute(q QueueSetting, ess []ExchangeSetting) (<-chan
 // routineRecover recover from panics that is fired from handler.
 func (a *AlaServer) routineRecover(d amqp.Delivery, routineUUIDStr string) {
 	if r := recover(); r != nil {
+		log.Printf("%s", r)
 		d.Nack(false, true)
 		a.routeCloseSignals.Delete(routineUUIDStr)
 	}
