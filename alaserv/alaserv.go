@@ -191,14 +191,6 @@ func (a *AlaServer) registerRoute(q QueueSetting, ess []ExchangeSetting) (<-chan
 	return consumeCh, nil
 }
 
-// routineRecover recover from panics that is fired from handler.
-func (a *AlaServer) routineRecover(d amqp.Delivery, routineUUIDStr string) {
-	if r := recover(); r != nil {
-		a.routeCloseSignals.Delete(routineUUIDStr)
-		panic(r)
-	}
-}
-
 // startHandlerRoutine start routine for handler to receive delivery.
 func (a *AlaServer) startHandlerRoutine(consumeCh <-chan amqp.Delivery, handler HandlerFunc) {
 	for delivery := range consumeCh {
@@ -213,7 +205,6 @@ func (a *AlaServer) startHandlerRoutine(consumeCh <-chan amqp.Delivery, handler 
 			ruuidStr := routineUUID.String()
 			a.routeCloseSignals.Set(ruuidStr, cancel)
 
-			defer a.routineRecover(d, ruuidStr)
 			err := handler(routeCtx, d, a.amqpChan)
 			if err != nil {
 				d.Nack(false, true)
